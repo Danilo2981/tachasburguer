@@ -39,7 +39,13 @@ function App() {
         </Row>
       </Container>
 
-      <Footer />
+      <Footer 
+        direccion="Av. Principal, Quito, Ecuador" 
+        telefono="555-555-5555" 
+        email="info@hamburguesas.com" 
+        instagram="https://www.instagram.com/hamburguesas_ec/" 
+        facebook="https://www.facebook.com/hamburguesas.ec/"
+      />
     </>
   )
 }
