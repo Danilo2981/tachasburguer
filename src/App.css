@@ -1,0 +1,48 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css');
+
+.navbar-brand span {
+  font-family: 'Climate Crisis', sans-serif;
+}
+
+.carousel {
+  padding-top: 60px
+}
+
+.carousel .caption {
+  background-color: rgba(0, 0, 0, 0.5); 
+  color: white; 
+  padding: "2rem"
+}
+
+.col.banner {
+  background: linear-gradient(to top, rgba(255, 87, 51, 1), rgba(255, 179, 71, 0.20)), url('./src/assets/j1.jpg'); 
+  background-size: cover; 
+  color: white; 
+  padding: 20px; 
+  border-radius: 10px; 
+  width: auto; 
+  height: auto; 
+}
+
+.col.banner .text {
+    padding-top: 30vh;
+    text-align: center
+}
+
+.col.history h1 {
+  font-family: 'Climate Crisis', sans-serif;
+  text-align: center;
+}
+
+.col.history p {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  text-justify: inter-ideograph;
+}
+
+.col.title-menu {
+  font-family: 'Climate Crisis', sans-serif;
+  text-align: center;
+}
+
+
