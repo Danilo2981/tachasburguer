@@ -186,6 +186,7 @@ const Menu = () => {
               </Col>
               <Col>
                 <form>
+                  <input type="hidden" name="cartTotal" value={cartTotal} />
                   <div className="form-group">
                     <label htmlFor="name">Nombre</label>
                   </div>
