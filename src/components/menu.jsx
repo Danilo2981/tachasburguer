@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
+import { 
+  onSnapshot,
+  collection,
+  addDoc,
+  doc,
+  deleteDoc,
+  setDoc
+} from "firebase/firestore";
+import { db } from '../firebase.js';
 import '../App.css'
 
 import burgerClassic from '../assets/burguer-classic.jpg';
@@ -19,6 +28,27 @@ const menuItems = [
 ];
 
 const Menu = () => {
+  const [orders, setOrders] = useState([])
+ 
+  const getData = () => {
+    const arrData = []
+    onSnapshot(collection(db, 'orders'), (snapshot) => {
+      snapshot.docs.forEach((item) => {
+        console.log(item.data())
+        arrData.push({
+          ...item.data(),
+          id: item.id
+        })
+        console.log(arrData)
+        setOrders(arrData)
+      })
+    })
+  }
+  
+  useEffect(() => {
+    getData()  
+  }, []);
+
   const [counters, setCounters] = useState(new Array(menuItems.length).fill(0));
   const [showCart, setShowCart] = useState(false);
   const [cartTotal, setCartTotal] = useState(0);
@@ -59,6 +89,17 @@ const Menu = () => {
   }  
 
 
+  const createOrder = (() => {
+    addDoc(collection(db, 'orders'), {
+      address: 'Ibarra',
+      mail: 'www.dani.com',
+      name: 'Danilo',
+      order_data: 'como',
+      phone: '984583123',
+      total: '50.00',
+    })
+    getData()
+  })
 
   return (
     <Container>
@@ -155,7 +196,7 @@ const Menu = () => {
                     <label htmlFor="address">Dirección</label>
                     <input type="tel" className="form-control" id="address" />
                   </div>
-                  <button type="submit" className="btn btn-success btn-block mt-3">Enviar pedido</button>
+                  <button type="button" onClick={() => createOrder()} className="btn btn-success btn-block mt-3">Enviar pedido</button>
                 </form>
               </Col>
             </Row>

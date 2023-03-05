@@ -1,23 +1,46 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Container, Row, Col} from 'react-bootstrap';
 import NavBar from './components/navbar';
 import CarouselHamburgers from './components/carousel';
 import AboutUs from './components/about';
 import MenuTachas from './components/menu';
 import Footer from './components/footer';
-import './App.css'
-import Menu from './components/menu';
-
-
+import { 
+  onSnapshot,
+  collection,
+  addDoc,
+  doc,
+  deleteDoc,
+  setDoc
+} from "firebase/firestore";
+import { db } from './firebase.js';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [orders, setOrders] = useState([])
+ 
+  const getData = () => {
+    const arrData = []
+    onSnapshot(collection(db, 'orders'), (snapshot) => {
+      snapshot.docs.forEach((item) => {
+        console.log(item.data())
+        arrData.push({
+          ...item.data(),
+          id: item.id
+        })
+        console.log(arrData)
+        setOrders(arrData)
+      })
+    })
+  }
+  
+  useEffect(() => {
+    getData()  
+  }, []);
 
-  return (
-    
+  return (  
     <>
       <NavBar />
-
       <Container>
         <Row>
           <Col>
