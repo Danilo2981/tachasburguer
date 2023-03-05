@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
-import { FaShoppingCart } from 'react-icons/fa';
 import '../App.css'
 
 import burgerClassic from '../assets/burguer-classic.jpg';
@@ -16,7 +15,7 @@ const menuItems = [
   { name: 'Hamburguesa Vegetariana', price: '$7.99', description: 'Hamburguesa de quinoa, lechuga, tomate, aguacate y salsa de yogur.', image: burgerVeggie },
   { name: 'Hamburguesa con Jalapeños', price: '$6.99', description: 'Carne de res, queso pepper jack, jalapeños y salsa picante.', image: burgerJalapeno },
   { name: 'Hamburguesa con Queso Azul', price: '$6.99', description: 'Carne de res, queso azul, lechuga, tomate y salsa especial.', image: burgerBlueCheese },
-  { name: 'Papas Francesas y Bebidas', price: '$0.00', description: 'Todas las ordenes se acompañan con papas y bebidas de elección.', image: potatosFrench },
+  { name: 'Papas Francesas y Bebidas', price: '$2.00', description: 'Todas las ordenes se acompañan con papas y bebidas de elección.', image: potatosFrench },
 ];
 
 const Menu = () => {
