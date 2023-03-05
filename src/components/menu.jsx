@@ -43,8 +43,15 @@ const Menu = () => {
   let cartItems = [];
 
   const handleCart = () => {
-    const totalPrice = cartItems.reduce((total, item) => total + item.price.replace('$', '') * item.quantity, 0);
-    setCartTotal(totalPrice);
+    const cartItems = menuItems.map((item, index) => {
+      return {
+        name: item.name,
+        quantity: counters[index],
+        price: item.price,
+        total: item.price.slice(1) * counters[index],
+      };
+    });
+    const totalPrice = cartItems.reduce((total, item) => total + item.total, 0);
     setShowCart(true);
   };
 
@@ -52,7 +59,7 @@ const Menu = () => {
     setShowCart(false);
   }  
 
-  
+
 
   return (
     <Container>
@@ -82,65 +89,77 @@ const Menu = () => {
       </Row>
       <Row className="mb-3 mt-3">
         <Col>
-          <button className="btn btn-primary" onClick={() => {
-            const order = menuItems.map((item, index) => {
-              return {
-                name: item.name,
-                quantity: counters[index],
-                price: item.price,
-                total: item.price.slice(1) * counters[index] // calcula la multiplicacion
-              }
-            })
-            console.log(order);
-            handleCart();
-          }}>Crear Pedido</button>
-          {/* <button onClick={handleCart} className="btn btn-danger">
-            <FaShoppingCart className="mr-2" />
-            Ver carrito
-          </button> */}
+        <button className="btn btn-primary" onClick={() => {
+          const order = menuItems.map((item, index) => {
+            return {
+              name: item.name,
+              quantity: counters[index],
+              price: item.price,
+              total: item.price.slice(1) * counters[index] // calcula la multiplicacion
+            }
+          })
+          const totalOrder = order.reduce((acc, item) => acc + item.total, 0);
+          console.log(totalOrder);
+          setCartTotal(totalOrder); // actualiza el estado y muestra el valor en el span
+          handleCart();
+        }}>Crear Pedido</button>
         </Col>
       </Row>
       {showCart && (
-      <Row className="carrito mx-auto">
-        <Col>
-          <h2>Carrito de compras</h2>
-          <button className="close-cart btn btn-primary pt-1 mb-3" onClick={handleHideCart}>
-            <span className="sr-only">Cerrar</span>
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <ul className="list-group mb-3">
-            {menuItems.map((item, index) => {
-              if (counters[index] === 0) return null;
-              const totalPrice = item.price.replace('$', '') * counters[index];
-              return (
-                <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
-                  {item.name} ({counters[index]})
-                  <span>
-                    {item.price} x {counters[index]} = {totalPrice}
-                  </span>
-                </li>
-              );
-            })}
-            <li className="list-group-item d-flex justify-content-between align-items-center font-weight-bold">
-              Total:
-              <span className="badge badge-primary badge-pill">{parseFloat(cartTotal).toFixed(2)}</span>
-            </li>
-          </ul>
-          <form>
-            <div className="form-group">
-              <label htmlFor="name">Nombre</label>
-              <input type="text" className="form-control" id="name" />
-            </div>
-            <div className="form-group">
-              <label htmlFor="email">Correo electrónico</label>
-              <input type="email" className="form-control" id="email" />
-            </div>
-            <div className="form-group">
-              <label htmlFor="phone">Número de teléfono</label>
-              <input type="tel" className="form-control" id="phone" />
-            </div>
-            <button type="submit" className="btn btn-success btn-block mt-3">Enviar pedido</button>
-          </form>
+      <Row className="carrito">
+        <Col className='mx-auto'>
+            <Row>
+              <Col>
+                <h2>Carrito de compras</h2>
+                <button className="close-cart btn btn-primary  pt-1 mb-3" onClick={handleHideCart}>
+                  <span className="sr-only">Cerrar</span>
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <ul className="list-group mb-3 pt-4">
+                  {menuItems.map((item, index) => {
+                    if (counters[index] === 0) return null;
+                    const totalPrice = item.price.replace('$', '') * counters[index];
+                    return (
+                      <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
+                        {item.name} ({counters[index]})
+                        <span>
+                          {item.price} x {counters[index]} = {totalPrice}
+                        </span>
+                      </li>
+                    );
+                  })}
+                  <li className="list-group-item d-flex justify-content-between align-items-center font-weight-bold">
+                    Total:
+                    <span className="font-weight-bold">{`$${parseFloat(cartTotal).toFixed(2)}`}</span>
+                  </li>
+                </ul>  
+              </Col>
+              <Col>
+                <form>
+                  <div className="form-group">
+                    <label htmlFor="name">Nombre</label>
+                    <input type="text" className="form-control" id="name" />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="email">Correo electrónico</label>
+                    <input type="email" className="form-control" id="email" />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="phone">Número de teléfono</label>
+                    <input type="tel" className="form-control" id="phone" />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="address">Dirección</label>
+                    <input type="tel" className="form-control" id="address" />
+                  </div>
+                  <button type="submit" className="btn btn-success btn-block mt-3">Enviar pedido</button>
+                </form>
+              </Col>
+            </Row>
         </Col>  
       </Row>
       )}  
