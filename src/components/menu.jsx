@@ -26,6 +26,16 @@ const Menu = () => {
       newCounters[index] += 1;
       setCounters(newCounters);
     }
+
+    const handleDecrement = (index) => {
+      const newCounters = [...counters];
+      newCounters[index] -= 1; // disminuye en una unidad
+      if (newCounters[index] < 0) {
+        newCounters[index] = 0; // no permitir números negativos
+      }
+      setCounters(newCounters);
+    }
+    
   
     return (
       <Container>
@@ -43,8 +53,9 @@ const Menu = () => {
                     <h5 className="font-weight-bold mb-0">{item.price}</h5>
                     <div className="d-flex align-items-center">
                       <span>¡Ordena ya!</span>  
-                      <button onClick={() => handleCounter(index)} className="btn btn-outline-secondary mx-1">+</button>
+                      <button onClick={() => handleDecrement(index)} className="btn btn-outline-secondary mx-1">-</button>
                       <span>{counters[index]}</span>
+                      <button onClick={() => handleCounter(index)} className="btn btn-outline-secondary mx-1">+</button>
                     </div>
                   </div>
                 </Card.Body>
