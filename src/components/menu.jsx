@@ -29,7 +29,8 @@ const menuItems = [
 
 const Menu = () => {
   const [orders, setOrders] = useState([])
- 
+  const [form, setForm]  = useState(null) 
+
   const getData = () => {
     const arrData = []
     onSnapshot(collection(db, 'orders'), (snapshot) => {
@@ -90,16 +91,21 @@ const Menu = () => {
 
 
   const createOrder = (() => {
-    addDoc(collection(db, 'orders'), {
-      address: 'Ibarra',
-      mail: 'www.dani.com',
-      name: 'Danilo',
-      order_data: 'como',
-      phone: '984583123',
-      total: '50.00',
-    })
+    if(form) {
+      addDoc(collection(db, 'orders'), form)
+    } else {
+      alert('formulario vacio')
+    }
     getData()
   })
+
+  const handleChange = (ev) => {
+    setForm({
+      ...form,
+      [ev.name]: ev.value
+    })
+    console.log(form)
+  }
 
   return (
     <Container>
@@ -174,7 +180,7 @@ const Menu = () => {
                   })}
                   <li className="list-group-item d-flex justify-content-between align-items-center font-weight-bold">
                     Total:
-                    <span className="font-weight-bold">{`$${parseFloat(cartTotal).toFixed(2)}`}</span>
+                    <span className="font-weight-bold" onChange={(e) => handleChange(e.target)}>{`$${parseFloat(cartTotal).toFixed(2)}`}</span>
                   </li>
                 </ul>  
               </Col>
@@ -182,19 +188,19 @@ const Menu = () => {
                 <form>
                   <div className="form-group">
                     <label htmlFor="name">Nombre</label>
-                    <input type="text" className="form-control" id="name" />
                   </div>
+                    <input name="nameOrder" type="text" className="form-control" id="name" onChange={(e) => handleChange(e.target)}/>
                   <div className="form-group">
                     <label htmlFor="email">Correo electrónico</label>
-                    <input type="email" className="form-control" id="email" />
+                    <input name="mailOrder" type="email" className="form-control" id="email" onChange={(e) => handleChange(e.target)}/>
                   </div>
                   <div className="form-group">
                     <label htmlFor="phone">Número de teléfono</label>
-                    <input type="tel" className="form-control" id="phone" />
+                    <input name="phoneOrder" type="tel" className="form-control" id="phone" onChange={(e) => handleChange(e.target)}/>
                   </div>
                   <div className="form-group">
                     <label htmlFor="address">Dirección</label>
-                    <input type="tel" className="form-control" id="address" />
+                    <input name="adressOrder" type="tel" className="form-control" id="address" onChange={(e) => handleChange(e.target)}/>
                   </div>
                   <button type="button" onClick={() => createOrder()} className="btn btn-success btn-block mt-3">Enviar pedido</button>
                 </form>
