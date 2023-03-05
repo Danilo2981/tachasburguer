@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import '../App.css'
 
@@ -19,26 +19,41 @@ const menuItems = [
 ];
 
 const Menu = () => {
-  return (
-    <Container>
-      <Row>
-        {menuItems.map((item, index) => (
-          <Col key={index} lg={4} style={{ marginTop: '2rem' }}>
-            <Card className="h-100">
-            <Card.Img variant="top" src={item.image} style={{ objectFit: "cover", height: "200px" }} />
-                    <Card.Body className="d-flex flex-column justify-content-between">
+    const [counters, setCounters] = useState(new Array(menuItems.length).fill(0));
+  
+    const handleCounter = (index) => {
+      const newCounters = [...counters];
+      newCounters[index] += 1;
+      setCounters(newCounters);
+    }
+  
+    return (
+      <Container>
+        <Row>
+          {menuItems.map((item, index) => (
+            <Col key={index} lg={4} style={{ marginTop: '2rem' }}>
+              <Card className="h-100">
+                <Card.Img variant="top" src={item.image} style={{ objectFit: "cover", height: "200px" }} />
+                <Card.Body className="d-flex flex-column justify-content-between">
+                  <div>
                     <Card.Title>{item.name}</Card.Title>
                     <Card.Text className="text-truncate">{item.description}</Card.Text>
-                    <div className="d-flex justify-content-between align-items-center">
-                        <h5 className="font-weight-bold mb-0">{item.price}</h5>
+                  </div>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <h5 className="font-weight-bold mb-0">{item.price}</h5>
+                    <div className="d-flex align-items-center">
+                      <span>¡Ordena ya!</span>  
+                      <button onClick={() => handleCounter(index)} className="btn btn-outline-secondary mx-1">+</button>
+                      <span>{counters[index]}</span>
                     </div>
+                  </div>
                 </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-    </Container>
-  );
-};
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </Container>
+    );
+  };
 
 export default Menu;
